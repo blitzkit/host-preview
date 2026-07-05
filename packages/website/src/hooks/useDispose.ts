@@ -3,9 +3,19 @@ import { useEffect } from "react";
 import { Cache, Group, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { GLTFLoader, type GLTF } from "three-stdlib";
 
+const users: Record<string, number> = {};
+
 export function useDispose(gltf: GLTF & ObjectMap, path: string) {
   useEffect(() => {
+    if (path in users) {
+      users[path]++;
+    } else {
+      users[path] = 1;
+    }
+
     return () => {
+      if (--users[path] > 0) return;
+
       gltf.scene.traverse((object) => {
         if (object instanceof Mesh) {
           if (object.material instanceof MeshStandardMaterial) {
