@@ -264,6 +264,7 @@ export function StaticArmorSceneComponent({
             <mesh
               {...meshProps}
               key={key}
+              castShadow
               material={surfaceMaterial}
               onPointerDown={onPointerDown}
               userData={
